@@ -1,7 +1,8 @@
-import { TCharacter } from './../types';
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { fetchCharacters } from "./api-operations.js";
-import { IState, ISetPage, TFindParams } from "../types.js";
+
+import { TCharacter } from "./../types";
+import { fetchCharacters } from "./api-operations";
+import { IState, TFindParams } from "../types.js";
 
 const initialState: IState = {
   characters: [],
@@ -36,19 +37,21 @@ export const apiSlice = createSlice({
       state.filter = action.payload;
     },
   },
-  extraReducers: {
-    [fetchCharacters.pending](state: IState, _) {
-      state.isLoading = true;
-    },
-
-    [fetchCharacters.fulfilled](state: IState, action: PayloadAction<TCharacter[]>) {
-      state.characters = [...state.characters, ...action.payload];
-      state.isLoading = false;
-    },
-
-    [fetchCharacters.rejected](state: IState, _) {
-      state.isLoading = false;
-    },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchCharacters.pending, (state: IState, _) => {
+        state.isLoading = true;
+      })
+      .addCase(
+        fetchCharacters.fulfilled,
+        (state: IState, action: PayloadAction<TCharacter[]>) => {
+          state.characters = [...state.characters, ...action.payload];
+          state.isLoading = false;
+        }
+      )
+      .addCase(fetchCharacters.rejected, (state: IState, _) => {
+        state.isLoading = false;
+      });
   },
 });
 

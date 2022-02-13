@@ -1,11 +1,13 @@
 import { useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks/hooks";
+
 import { setPage } from "../../redux/RickAndMorty/api-slice";
+
 import { Btn } from "./Button.styled";
 
 export default function LoadMore() {
-  const dispatch = useDispatch();
-  const curPage = useSelector((state) => state.api.curentPage);
+  const dispatch = useAppDispatch();
+  const curPage = useAppSelector((state) => state.api.curentPage);
 
   const handeClick = useCallback(() => {
     dispatch(setPage(curPage + 1));

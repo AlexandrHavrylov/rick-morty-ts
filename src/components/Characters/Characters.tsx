@@ -1,15 +1,15 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../../redux/hooks/hooks";
+import { TCharacter, TFindParams } from "../../redux/types";
+
 import { CharactersList, Charcter, Main } from "./Characters.styled";
 
 export default function Characters() {
   // берем данные из стейта
-
-  const chars = useSelector((state) => state.api.characters);
-  const filtr = useSelector((state) => state.api.filter);
+  const chars = useAppSelector((state) => state.api.characters);
+  const filtr = useAppSelector((state) => state.api.filter);
 
   // функция для фильтрации стейта
-  const getFilterCharacters = (allCharacters, filter) => {
+  const getFilterCharacters = (allCharacters: TCharacter[], filter: TFindParams) => {
     const normalizedFilterNameValue = filter.name?.toLowerCase().trim();
     const normalizedFilterGenderValue = filter.gender?.toLowerCase().trim();
     const normalizedFilterStatusValue = filter.status?.toLowerCase().trim();
@@ -21,11 +21,13 @@ export default function Characters() {
         char.status.toLowerCase().includes(normalizedFilterStatusValue)
       );
     });
+  
     return filtredCharacters;
   };
 
   // фильтруем персонажай для отрисовки
   const characters = getFilterCharacters(chars, filtr);
+
 
   return (
     <Main>

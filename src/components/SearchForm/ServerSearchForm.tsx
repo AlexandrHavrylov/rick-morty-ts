@@ -1,5 +1,9 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useState } from "react";
+import { BiSearch } from "react-icons/bi";
+
+import {setCharacterToFind, setPage} from "../../redux/RickAndMorty/api-slice";
+import { useAppDispatch } from "../../redux/hooks/hooks";
+
 import {
   Searchbar,
   Form,
@@ -9,14 +13,9 @@ import {
   SelectText,
 } from "./SearchForm.styled";
 
-import {
-  setCharacterToFind,
-  setPage,
-} from "../../redux/RickAndMorty/api-slice.js";
-import { BiSearch } from "react-icons/bi";
 
 export default function ServerSearchForm() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   // Берем данные из инпутов для фетча
   const [character, setCharacter] = useState({
@@ -27,21 +26,21 @@ export default function ServerSearchForm() {
 
   // При сабмите формы обнулям страницу пагинации +
   // сетим в стейт данные для фетча
-
-  const handleFormSubmit = async (e) => {
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(setPage(1));
     dispatch(setCharacterToFind(character));
   };
 
-  const inputChangeHandler = (e) => {
+  const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) => {
     const { value, name } = e.currentTarget;
-
     setCharacter((prev) => ({
       ...prev,
       [name]: value.trim(),
     }));
   };
+
+
   return (
     <Searchbar>
       <span>SERVER FILTER FORM</span>
@@ -49,6 +48,7 @@ export default function ServerSearchForm() {
         <Button type="submit">
           <BiSearch />
         </Button>
+
         <Input
           placeholder="Enter search params"
           onChange={inputChangeHandler}
@@ -56,7 +56,9 @@ export default function ServerSearchForm() {
           value={character.name}
           type="text"
         />
+
         <SelectText>Gender</SelectText>
+
         <Select
           onChange={inputChangeHandler}
           value={character.gender}
@@ -66,7 +68,9 @@ export default function ServerSearchForm() {
           <option value="male">Male</option>
           <option value="female">Female</option>
         </Select>
+
         <SelectText>Status</SelectText>
+        
         <Select
           value={character.status}
           onChange={inputChangeHandler}
