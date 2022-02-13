@@ -15,9 +15,10 @@ export default function Characters() {
     const normalizedFilterStatusValue = filter.status?.toLowerCase().trim();
 
     const filtredCharacters = allCharacters?.filter((char) => {
+    
       return (
         char.name.toLowerCase().includes(normalizedFilterNameValue) &&
-        char.gender.toLowerCase().includes(normalizedFilterGenderValue) &&
+        normalizedFilterGenderValue.length > 0 ? char.gender.toLowerCase() === normalizedFilterGenderValue : char.gender.toLowerCase().includes(normalizedFilterGenderValue) &&
         char.status.toLowerCase().includes(normalizedFilterStatusValue)
       );
     });

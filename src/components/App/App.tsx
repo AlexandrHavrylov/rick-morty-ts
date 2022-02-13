@@ -4,11 +4,12 @@ import { Oval } from "react-loader-spinner";
 
 import { fetchCharacters } from "../../redux/RickAndMorty/api-operations";
 import { resetCharacters } from "../../redux/RickAndMorty/api-slice";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks/hooks";
 import LoadMore from "../Button/LoadMore";
 import Characters from "../Characters/Characters";
 import ServerSerchForm from "../SearchForm/ServerSearchForm";
 import FrontSerchForm from "../SearchForm/FrontSearchForm";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks/hooks";
+
 
 import { Wrapper } from "./App.styled";
 import "react-toastify/dist/ReactToastify.css";
